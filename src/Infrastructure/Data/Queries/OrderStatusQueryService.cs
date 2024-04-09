@@ -44,5 +44,31 @@ public class OrderStatusQueryService : IOrderStatusQueryService
         return orderStatus;
     }
 
-    
+    public async Task<bool> UpdateOrderStatusAsync(int orderId, int newStatusId)
+    {
+        try
+        {
+            // İlgili siparişi bul
+            var order = await _dbContext.Orders.FindAsync(orderId);
+
+            if (order == null)
+            {
+                return false;
+            }
+
+            // Yeni durum ID'sini doğrudan kullan
+            order.OrderStatusId = newStatusId;
+
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Hata oluştu: {ex.Message}");
+            return false;
+        }
+    }
+
+
 }

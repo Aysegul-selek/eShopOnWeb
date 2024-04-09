@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.eShopWeb.ApplicationCore.Services;
 using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Web.Features.MyOrders;
 using Microsoft.eShopWeb.Web.Features.OrderDetails;
@@ -96,18 +97,21 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Approve(int orderId, int orderStatusId)
+  
+    public async Task<IActionResult> ApprovedUpdated(int orderId, int newStatusId)
     {
-        var order = await _dbContext.Orders.FindAsync(orderId);
-        if (order == null)
-        {
-            return NotFound();
-        }
-        order.OrderStatusId = orderStatusId;
-        _dbContext.Update(order);
-        await _dbContext.SaveChangesAsync();
+        var success = await _orderStatusService.UpdateOrderStatusAsync(orderId, newStatusId);
 
-        return RedirectToAction("Detail", new { orderId = orderId });
+        if (success)
+        {
+            return RedirectToAction("Detail", new { orderId = orderId });
+        }
+        else
+        {
+            // Hata durumunda gerekli işlemleri yap
+            return RedirectToAction("Error");
+        }
+
     }
 
 }

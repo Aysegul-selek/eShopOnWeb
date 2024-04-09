@@ -11,5 +11,6 @@ public interface IOrderStatusQueryService
     Task<OrderStatus> ChangeOrderStatusAsync(int orderStatusId, string newStatus);
     Task<string> GetOrderStatusById(int orderStatusId);
     Task<List<OrderStatus>> GetAllOrderStatuses();
-  
+    Task<bool> UpdateOrderStatusAsync(int orderId, int newStatusId);
+
 }

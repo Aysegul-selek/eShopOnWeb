@@ -1,10 +1,4 @@
-﻿
-@{
-    ViewData["Title"] = "OrderStatusDetail";
-   
-}
-@model OrderStatusViewModel
-
+﻿@model OrderStatusViewModel
 <div class="container">
     <h1>Order Detail</h1>
 
@@ -25,60 +19,33 @@
                 <dd class="col-sm-8">@Model.Status</dd>
             </dl>
         </div>
+
         <div class="col-md-6">
-            <h4>Change Status</h4>
-
-<form asp-controller="Admin" asp-action="Approve" method="post" id="approveForm">
-    <input type="hidden" name="orderId" value="@Model.OrderNumber" />
-
-    <div class="form-group">
-        <label asp-for="OrderStatusId" class="control-label">New Status:</label>
-                    <select asp-for="OrderStatusId" class="form-control">
+            <form id="approveForm" method="post" >
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="orderId" value="@Model.OrderNumber" />
+                <div class="form-group">
+                    <label asp-for="OrderNumber" class="control-label">Order Number:</label>
+                    <input asp-for="OrderNumber" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="OrderStatusId" class="control-label">New Status:</label>
+                    <select name="newStatusId" class="form-control">
                         @foreach (var status in Model.Statuses)
                         {
                             <option value="@status.OrderStatusId">@status.Name</option>
                         }
                     </select>
-
-
-        <span asp-validation-for="OrderStatusId" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Change Status" class="btn btn-primary" />
-    </div>
-</form>
-
-
-           
+                </div>
+                <button type="submit" asp-controller="Admin" asp-action="ApprovedUpdated" asp-route-orderId="@Model.OrderNumber" class="btn btn-primary">Update Status</button>
+            </form>
 
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div id="statusMessage" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; padding: 10px; border-radius: 5px; z-index: 9999;">
-    Status changed successfully.
-</div>
 
-<script>
-    $(document).ready(function () {
-        $('#approveForm').submit(function (event) {
-            event.preventDefault();
 
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: $(this).serialize(),
-                success: function (response) {
-                    $('#statusMessage').fadeIn().delay(2000).fadeOut(); 
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
+
 
 
 
