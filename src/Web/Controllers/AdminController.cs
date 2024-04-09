@@ -15,23 +15,22 @@ using Microsoft.eShopWeb.Web.ViewModels;
 
 namespace Microsoft.eShopWeb.Web.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
-[Authorize] // Controllers that mainly require Authorization still use Controller/View; other pages use Pages
+[Authorize] 
 [Route("[controller]/[action]")]
 
 public class AdminController : Controller
 {
-    private readonly CatalogContext _dbContext;
+ 
     private readonly IOrderStatusQueryService _orderStatusService;
     private readonly IOrderStatusViewModelService _orderStatusView;
 
     private readonly IMediator _mediator;
 
-    public AdminController(IMediator mediator, IOrderStatusQueryService orderStatusService, IOrderStatusViewModelService orderStatusView, CatalogContext dbContext)
+    public AdminController(IMediator mediator, IOrderStatusQueryService orderStatusService, IOrderStatusViewModelService orderStatusView )
     {
         _mediator = mediator;
         _orderStatusService = orderStatusService;
         _orderStatusView = orderStatusView;
-        _dbContext = dbContext;
     }
 
 
@@ -108,7 +107,6 @@ public class AdminController : Controller
         }
         else
         {
-            // Hata durumunda gerekli işlemleri yap
             return RedirectToAction("Error");
         }
 
