@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <PackageReference Include="BlazorInputFile" />
     <PackageReference Include="FluentValidation" />
   </ItemGroup>

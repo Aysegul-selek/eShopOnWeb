@@ -1,0 +1,42 @@
+﻿@page
+@using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate
+@using Microsoft.eShopWeb.Web.ViewModels
+@model OrderViewModel
+
+<div class="container">
+    <h1 class="display-4">Order Status</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Order Number</dt>
+                <dd class="col-sm-8">@Model.OrderNumber</dd>
+                <dt class="col-sm-4">Order Date</dt>
+                <dd class="col-sm-8">@Model.OrderDate</dd>
+                <dt class="col-sm-4">Total</dt>
+                <dd class="col-sm-8">$ @Model.Total</dd>
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">@Model.Status</dd>
+            </dl>
+            <form asp-page-handler="ChangeOrderStatusAsync" method="post">
+                <input type="hidden" name="Id" value="@Model.OrderNumber" />
+                <div class="form-group">
+                    @if (ViewData["StatusList"] != null)
+                    {
+                        <select class="form-control" id="newStatus" name="newStatus">
+                            @foreach (var status in ViewData["StatusList"] as List<OrderStatus>)
+                            {
+                                <option value="@status.OrderStatusId">@status.Name</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <p>Status listesi bulunamadı.</p>
+                    }
+                </div>
+                <button type="submit" class="btn btn-primary">Change Status</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Ardalis.GuardClauses;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
@@ -7,7 +8,8 @@ namespace Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 
 public class Order : BaseEntity, IAggregateRoot
 {
-    #pragma warning disable CS8618 // Required by Entity Framework
+    private const int DEFAULT_STATUS = 1;
+#pragma warning disable CS8618 // Required by Entity Framework
     private Order() {}
 
     public Order(string buyerId, Address shipToAddress, List<OrderItem> items)
@@ -20,6 +22,9 @@ public class Order : BaseEntity, IAggregateRoot
     }
 
     public string BuyerId { get; private set; }
+
+    public int OrderStatusId { get; set; } = DEFAULT_STATUS;
+    public OrderStatus Status { get; set; }
     public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
     public Address ShipToAddress { get; private set; }
 

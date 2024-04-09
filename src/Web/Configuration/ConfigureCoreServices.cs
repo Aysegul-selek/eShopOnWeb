@@ -4,6 +4,8 @@ using Microsoft.eShopWeb.Infrastructure.Data;
 using Microsoft.eShopWeb.Infrastructure.Data.Queries;
 using Microsoft.eShopWeb.Infrastructure.Logging;
 using Microsoft.eShopWeb.Infrastructure.Services;
+using Microsoft.eShopWeb.Web.Interfaces;
+using Microsoft.eShopWeb.Web.Services;
 
 namespace Microsoft.eShopWeb.Web.Configuration;
 
@@ -17,7 +19,9 @@ public static class ConfigureCoreServices
 
         services.AddScoped<IBasketService, BasketService>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderStatusQueryService, OrderStatusQueryService>();
         services.AddScoped<IBasketQueryService, BasketQueryService>();
+        services.AddScoped<IOrderStatusViewModelService, OrderStatusViewModelService>();
 
         var catalogSettings = configuration.Get<CatalogSettings>() ?? new CatalogSettings();
         services.AddSingleton<IUriComposer>(new UriComposer(catalogSettings));

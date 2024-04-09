@@ -7,6 +7,7 @@ using Blazored.LocalStorage;
 using BlazorShared;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
@@ -70,7 +71,7 @@ builder.Services.AddRouting(options =>
     // IOutboundParameterTransformer implementation
     options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer);
 });
-
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddMvc(options =>
 {
     options.Conventions.Add(new RouteTokenTransformerConvention(
@@ -189,6 +190,12 @@ app.UseRouting();
 app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapRazorPages();
+});
 
 
 app.MapControllerRoute("default", "{controller:slugify=Home}/{action:slugify=Index}/{id?}");

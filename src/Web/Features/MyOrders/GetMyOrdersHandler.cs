@@ -25,6 +25,7 @@ public class GetMyOrdersHandler : IRequestHandler<GetMyOrders, IEnumerable<Order
         {
             OrderDate = o.OrderDate,
             OrderNumber = o.Id,
+            BuyerId=o.BuyerId,
             ShippingAddress = o.ShipToAddress,
             Total = o.Total()
         });

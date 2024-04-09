@@ -1,0 +1,35 @@
+﻿@model IEnumerable<OrderViewModel>
+
+<div class="esh-orders">
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+        <article class="esh-orders-titles row">
+            <section class="esh-orders-title col-xs-2">Order number</section>
+            <section class="esh-orders-title col-xs-3">Date</section>
+            <section class="esh-orders-title col-xs-3">BuyerId</section>
+            <section class="esh-orders-title col-xs-1">Total</section>
+            <section class="esh-orders-title col-xs-1">Status</section>
+            <section class="esh-orders-title col-xs-2"></section> <!-- Detaylar için 2 kolonluk alan -->
+        </article>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <article class="esh-orders-items row">
+                    <section class="esh-orders-item col-xs-2">@Html.DisplayFor(modelItem => item.OrderNumber)</section>
+                    <section class="esh-orders-item col-xs-3">@Html.DisplayFor(modelItem => item.OrderDate)</section>
+                    <section class="esh-orders-item col-xs-3">@Html.DisplayFor(modelItem => item.BuyerId)</section>
+                    <section class="esh-orders-item col-xs-1">$ @Html.DisplayFor(modelItem => item.Total)</section>
+                    <section class="esh-orders-item col-xs-1">@Html.DisplayFor(modelItem => item.Status)</section>
+                    <section class="esh-orders-item col-xs-2">
+                        <a class="esh-orders-link" asp-controller="Admin" asp-action="Detail" asp-route-orderId="@item.OrderNumber">Detail</a>
+                      @*   @if (item.Status.ToLower() == "submitted")
+                        { *@
+                            <a class="esh-orders-link" asp-controller="Admin" asp-action="cancel" asp-route-orderId="@item.OrderNumber">Cancel</a>
+                       @*  } *@
+                    </section>
+                </article>
+            }
+        }
+    </div>
+</div>

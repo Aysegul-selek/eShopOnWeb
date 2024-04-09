@@ -1,0 +1,41 @@
+﻿@model OrderDetailViewModel
+
+<div class="esh-orders-detail">
+    <div class="container">
+        <section class="esh-orders-detail-section">
+            <article class="esh-orders-detail-titles row">
+                <section class="esh-orders-detail-title col-xs-3">Product Name</section>
+                <section class="esh-orders-detail-title col-xs-1">Unit Price</section>
+                <section class="esh-orders-detail-title col-xs-1">Units</section>
+                <section class="esh-orders-detail-title col-xs-2">Total</section>
+                <section class="esh-orders-detail-title col-xs-4">Picture</section>
+            </article>
+
+            @foreach (var item in Model.OrderItems)
+            {
+                <article class="esh-orders-detail-items esh-orders-detail-items--border row">
+                    <section class="esh-orders-detail-item col-xs-3">@item.ProductName</section>
+                    <section class="esh-orders-detail-item col-xs-1">$ @item.UnitPrice.ToString("N2")</section>
+                    <section class="esh-orders-detail-item col-xs-1">@item.Units</section>
+                    <section class="esh-orders-detail-item col-xs-2">$ @Math.Round(item.Units * item.UnitPrice, 2).ToString("N2")</section>
+                    <section class="esh-orders-detail-item col-xs-4"><img class="esh-orders-detail-image" src="@item.PictureUrl"></section>
+                </article>
+            }
+        </section>
+
+        <section class="esh-orders-detail-section esh-orders-detail-section--right">
+            <article class="esh-orders-detail-titles esh-basket-titles--clean row">
+                <section class="esh-orders-detail-title col-xs-9"></section>
+                <section class="esh-orders-detail-title col-xs-2">TOTAL</section>
+            </article>
+
+            <article class="esh-orders-detail-items row">
+                <section class="esh-orders-detail-item col-xs-9"></section>
+                <section class="esh-orders-detail-item esh-orders-detail-item--mark col-xs-2">$ @Model.Total.ToString("N2")</section>
+            </article>
+            <a class="esh-orders-link" asp-controller="Admin" asp-action="OrderStatusDetail" asp-route-orderId="@Model.OrderNumber">Approved</a>
+
+
+        </section>
+    </div>
+</div>
